@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: bookrary
+  datasource:
+    initialization-mode: always
+    platform: 'postgres'
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: ${DB_URL}
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+
+swagger:
+  enabled: true
+  path:
+
+security:
+  jwtSecret: ${JWT_SECRET}
