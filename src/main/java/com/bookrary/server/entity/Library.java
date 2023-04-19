@@ -7,7 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Table(name = "book")
+@Table(name = "library")
 @Entity
 @Getter
 @Setter
