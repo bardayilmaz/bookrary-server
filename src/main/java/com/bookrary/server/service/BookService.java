@@ -36,7 +36,7 @@ public class BookService {
     public BookResponse addBook(BookRequest bookRequest) {
 
         Book book = fromRequest(new Book(), bookRequest);
-
+        bookRepository.save(book);
         return BookResponse.fromEntity(book);
     }
 
@@ -47,8 +47,8 @@ public class BookService {
         if(saleRepository.existsByBook(book)) {
             throw new BusinessException("Sold books can not be updated", ErrorCode.validation);
         }
-
         fromRequest(book, bookRequest);
+        bookRepository.save(book);
         return BookResponse.fromEntity(book);
     }
 
