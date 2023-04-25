@@ -2,6 +2,8 @@ package com.bookrary.server.model.response;
 
 import com.bookrary.server.entity.Advert;
 import com.bookrary.server.entity.AdvertStatus;
+import com.bookrary.server.entity.BookLanguage;
+import com.bookrary.server.entity.BookType;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,7 +21,13 @@ public class AdvertResponse {
     private ZonedDateTime updated;
     private double price;
     private AdvertStatus advertStatus;
-    private BookResponse book;
+    private int pageCount;
+    private LocalDateTime publicationDate;
+    private BookLanguage language;
+    private BookType type;
+    private String publisherName;
+    private String title;
+    private AuthorResponse author;
 
     public static AdvertResponse fromEntity(Advert advert) {
         return AdvertResponse.builder()
@@ -28,7 +36,13 @@ public class AdvertResponse {
                 .updated(advert.getUpdated())
                 .price(advert.getPrice())
                 .advertStatus(advert.getAdvertStatus())
-                .book(BookResponse.fromEntity(advert.getBook()))
+                .pageCount(advert.getPageCount())
+                .publicationDate(advert.getPublicationDate())
+                .language(advert.getLanguage())
+                .type(advert.getType())
+                .publisherName(advert.getPublisherName())
+                .title(advert.getTitle())
+                .author(AuthorResponse.fromEntity(advert.getAuthor()))
                 .build();
     }
 

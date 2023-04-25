@@ -18,7 +18,7 @@ public class SaleResponse {
     private ZonedDateTime updated;
     private UserResponse seller;
     private UserResponse buyer;
-    private BookResponse book;
+    private AdvertResponse advert;
     private SaleStatus saleStatus;
 
     public static SaleResponse fromEntity(Sale sale) {
@@ -28,7 +28,7 @@ public class SaleResponse {
                 .updated(sale.getUpdated())
                 .seller(UserResponse.fromEntity(sale.getSeller()))
                 .buyer(UserResponse.fromEntity(sale.getBuyer()))
-                .book(BookResponse.fromEntity(sale.getBook()))
+                .advert(AdvertResponse.fromEntity(sale.getAdvert()))
                 .build();
 
     }

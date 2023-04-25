@@ -5,7 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Table(name = "book")
+@Table(name = "sale")
 @Entity
 @Getter
 @Setter
@@ -20,8 +20,8 @@ public class Sale extends BaseEntity {
     private User buyer;
 
     @ManyToOne
-    @JoinTable(name = "book_id")
-    private Book book;
+    @JoinTable(name = "advert_id")
+    private Advert advert;
 
     @Column(name = "sale_statues")
     @Enumerated(EnumType.STRING)

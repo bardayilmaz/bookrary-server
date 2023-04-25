@@ -1,5 +1,6 @@
 package com.bookrary.server.model.request;
 
+import com.bookrary.server.entity.AdvertStatus;
 import com.bookrary.server.entity.BookLanguage;
 import com.bookrary.server.entity.BookType;
 import lombok.Data;
@@ -12,7 +13,13 @@ import java.time.LocalDateTime;
 
 @Data
 @ToString
-public class BookRequest {
+public class AdvertRequest {
+
+    @NotNull(message = "fiyat boş bırakılamaz")
+    private double price;
+
+    @NotNull(message = "ilan durumu boş bırakılamaz")
+    private AdvertStatus advertStatus;
 
     @NotEmpty(message = "Kitap ismi boş bırakılamaz")
     private String title;
