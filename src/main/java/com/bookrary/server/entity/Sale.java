@@ -12,15 +12,15 @@ import javax.persistence.*;
 public class Sale extends BaseEntity {
 
     @ManyToOne
-    @JoinTable(name = "seller_id")
+    @JoinColumn(name = "seller_id")
     private User seller;
 
     @ManyToOne
-    @JoinTable(name = "buyer_id")
+    @JoinColumn(name = "buyer_id")
     private User buyer;
 
     @ManyToOne
-    @JoinTable(name = "advert_id")
+    @JoinColumn(name = "advert_id")
     private Advert advert;
 
     @Column(name = "sale_statues")

@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface LibraryRepository extends JpaRepository<Library, String> {
-    List<Library> findAllByCity(City city);
+    List<Library> findAllByCityIn(List<City> cities);
 }

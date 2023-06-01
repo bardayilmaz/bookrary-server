@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -30,11 +31,12 @@ public class AdvertService {
     private final UserRepository userRepository;
 
     public Page<AdvertResponse> getAdverts(Pageable pageable, String name, String cityId) {
-        City city = cityRepository.findById(cityId)
-                .orElseThrow(() -> new BusinessException("City not found", ErrorCode.resource_missing));
-        List<Library> libraries = libraryRepository.findAllByCity(city);
+        List<City> cities = cityId != null ? Arrays.asList(cityRepository.findById(cityId)
+                .orElseThrow(() -> new BusinessException("City not found", ErrorCode.resource_missing))) :
+                cityRepository.findAll();
+        List<Library> libraries = libraryRepository.findAllByCityIn(cities);
         List<User> sellers = userRepository.findAllByLibraryIn(libraries);
-        return advertRepository.findByTitleContainingIgnoreCaseAndSellerIn(pageable, name, sellers).map(AdvertResponse::fromEntity);
+        return advertRepository.findByTitleContainingIgnoreCaseAndSellerIn(pageable, (name != null ? name : ""), sellers).map(AdvertResponse::fromEntity);
     }
 
     public AdvertResponse getAdverts(String bookId) {

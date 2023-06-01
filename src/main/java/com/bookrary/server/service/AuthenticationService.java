@@ -34,7 +34,7 @@ public class AuthenticationService {
         }
 
         if(userRepository.existsByPhoneNumber(registerRequest.getPhoneNumber())) {
-            throw new BusinessException("Email already exists", ErrorCode.validation);
+            throw new BusinessException("Phone already exists", ErrorCode.validation);
         }
 
         Library library = libraryRepository.findById(registerRequest.getLibraryId())
