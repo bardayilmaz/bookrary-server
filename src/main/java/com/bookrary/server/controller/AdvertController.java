@@ -39,4 +39,6 @@ public class AdvertController {
     public AdvertResponse updateAdvert(@RequestBody @Valid AdvertRequest advertRequest, @PathVariable String advertId) {
         return advertService.updateAdvert(advertRequest, advertId);
     }
+
+    // TODO: 6/1/23 delete advert
 }

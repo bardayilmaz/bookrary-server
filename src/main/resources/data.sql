@@ -21,3 +21,6 @@ values('1', now(), now(), 35.5, 'PENDING', 'Berke Udunman', 123, '01-01-2023', '
 insert into advert(id, created, updated, price, advert_status, title, page_count, publication_date, language, book_type,
                  publisher_name, author_id, seller_id)
 values('2', now(), now(), 35.5, 'PENDING', 'Bülent Arda Yılmaz', 365, '01-01-2023', 'TURKISH', 'SCIENCE_FICTION', 'İYTE YAYINCILIK', '1', '1');
+
+insert into sale(id, created, updated, sale_status)
+values('1', now(), now(), 'ACTIVE');

@@ -23,7 +23,7 @@ public class Sale extends BaseEntity {
     @JoinColumn(name = "advert_id")
     private Advert advert;
 
-    @Column(name = "sale_statues")
+    @Column(name = "sale_status")
     @Enumerated(EnumType.STRING)
     private SaleStatus saleStatus;
 
