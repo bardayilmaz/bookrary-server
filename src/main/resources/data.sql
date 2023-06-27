@@ -17,6 +17,9 @@ values('2', now(), now(), 'Berke', 'Udunman', '$2a$10$5wUz/bDg6tPD2B.ziDx2MeKWFu
 insert into author(id, created, updated, first_name, last_name)
 values ('1', now(), now(), 'Sait Faik', 'Abasıyanık');
 
+insert into author(id, created, updated, first_name, last_name)
+values ('2', now(), now(), 'Şevket Süreyya', 'Aydemir');
+
 -- advert --
 insert into advert(id, created, updated, price, advert_status, title, page_count, publication_date, language, book_type,
                  publisher_name, author_id, seller_id)
@@ -28,7 +31,7 @@ values('2', now(), now(), 35.5, 'PENDING', 'Dune', 365, '01-01-2023', 'TURKISH',
 
 insert into advert(id, created, updated, price, advert_status, title, page_count, publication_date, language, book_type,
                    publisher_name, author_id, seller_id)
-values('3', now(), now(), 35.5, 'PENDING', 'İyte Tarihi', 365, '01-01-2023', 'TURKISH', 'HISTORY', 'İYTE YAYINCILIK', '1', '1');
+values('3', now(), now(), 35.5, 'PENDING', 'İyte Tarihi', 365, '01-01-2023', 'TURKISH', 'HISTORY', 'İYTE YAYINCILIK', '2', '1');
 
 insert into sale(id, created, updated, sale_status, advert_id, seller_id, buyer_id)
 values('1', now(), now(), 'ACTIVE', '1', '1', '2');

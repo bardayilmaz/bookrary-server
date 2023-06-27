@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -36,4 +38,7 @@ public class AuthorService {
     }
 
 
+    public List<AuthorResponse> getMostSoldAuthors() {
+        return authorRepository.getMostSoldAuthors().stream().map(AuthorResponse::fromEntity).collect(Collectors.toList());
+    }
 }
