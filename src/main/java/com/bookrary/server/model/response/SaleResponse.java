@@ -29,6 +29,7 @@ public class SaleResponse {
                 .seller(UserResponse.fromEntity(sale.getSeller()))
                 .buyer(UserResponse.fromEntity(sale.getBuyer()))
                 .advert(AdvertResponse.fromEntity(sale.getAdvert()))
+                .saleStatus(sale.getSaleStatus())
                 .build();
 
     }
