@@ -2,6 +2,7 @@ package com.bookrary.server.service;
 
 import com.bookrary.server.entity.Advert;
 import com.bookrary.server.entity.Sale;
+import com.bookrary.server.entity.SaleStatus;
 import com.bookrary.server.entity.User;
 import com.bookrary.server.exception.BusinessException;
 import com.bookrary.server.exception.ErrorCode;
@@ -13,10 +14,10 @@ import com.bookrary.server.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.ZonedDateTime;
 
 @Transactional
 @AllArgsConstructor
@@ -41,6 +42,21 @@ public class SaleService {
         Sale newSale = fromRequest(new Sale(), saleRequest);
         saleRepository.save(newSale);
         return SaleResponse.fromEntity(newSale);
+    }
+
+    public SaleResponse updateSale(String saleId, SaleRequest saleRequest) {
+        Sale sale = saleRepository.findById(saleId)
+                .orElseThrow(() -> new BusinessException("sale not found", ErrorCode.resource_missing));
+        if (sale.getSaleStatus().equals(SaleStatus.ACTIVE) && saleRequest.getSaleStatus().equals(SaleStatus.RECEIVED)) {
+            if(sale.getCreated().plusHours(3).isBefore(ZonedDateTime.now())) {
+                sale.setSaleStatus(SaleStatus.EXPIRED);
+                saleRepository.save(sale);
+                throw new BusinessException("Time expired! Setting status to expired...", ErrorCode.validation);
+            }
+        }
+        fromRequest(sale, saleRequest);
+        saleRepository.save(sale);
+        return SaleResponse.fromEntity(sale);
     }
 
     private Sale fromRequest(Sale newSale, SaleRequest saleRequest) {

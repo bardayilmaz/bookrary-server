@@ -6,6 +6,7 @@ import com.bookrary.server.exception.ErrorCode;
 import com.bookrary.server.model.request.LibraryRequest;
 import com.bookrary.server.model.response.LibraryResponse;
 import com.bookrary.server.repository.LibraryRepository;
+import com.bookrary.server.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import javax.transaction.Transactional;
 public class LibraryService {
 
     private final LibraryRepository libraryRepository;
+    private final UserRepository userRepository;
 
     public Page<LibraryResponse> getLibraries(Pageable pageable) {
         return libraryRepository.findAll(pageable).map(LibraryResponse::fromEntity);
@@ -46,6 +48,9 @@ public class LibraryService {
     public LibraryResponse deleteLibrary(String libraryId) {
         Library library = libraryRepository.findById(libraryId)
                 .orElseThrow(() -> new BusinessException("Library not found", ErrorCode.resource_missing));
+        if(userRepository.existsByLibrary(library)) {
+            throw new BusinessException("There are users in library", ErrorCode.validation);
+        }
         libraryRepository.delete(library);
         return LibraryResponse.fromEntity(library);
     }
