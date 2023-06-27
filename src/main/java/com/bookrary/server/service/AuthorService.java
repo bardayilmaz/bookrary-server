@@ -33,12 +33,26 @@ public class AuthorService {
     }
 
     public AuthorResponse addAuthor(AuthorRequest authorRequest) {
-        Author author;
-        return null;
+        Author author = fromRequest(new Author(), authorRequest);
+        authorRepository.save(author);
+        return AuthorResponse.fromEntity(author);
     }
 
+    public AuthorResponse updateAuthor(String id, AuthorRequest authorRequest) {
+        Author author = authorRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Author not found", ErrorCode.resource_missing));
+        fromRequest(author, authorRequest);
+        authorRepository.save(author);
+        return AuthorResponse.fromEntity(author);
+    }
 
     public List<AuthorResponse> getMostSoldAuthors() {
         return authorRepository.getMostSoldAuthors().stream().map(AuthorResponse::fromEntity).collect(Collectors.toList());
+    }
+
+    private Author fromRequest(Author author, AuthorRequest authorRequest) {
+        author.setFirstName(authorRequest.getFirstName());
+        author.setLastName(author.getLastName());
+        return author;
     }
 }
