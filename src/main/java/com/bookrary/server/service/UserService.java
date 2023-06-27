@@ -9,6 +9,8 @@ import com.bookrary.server.model.response.UserStatsResponse;
 import com.bookrary.server.repository.SaleRepository;
 import com.bookrary.server.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,6 +24,10 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final SaleRepository saleRepository;
+
+    public Page<UserResponse> getUsers(Pageable pageable) {
+        return userRepository.findAll(pageable).map(UserResponse::fromEntity);
+    }
 
     public UserResponse getUser(String id) {
         return UserResponse.fromEntity(userRepository.findById(id)
@@ -39,10 +45,6 @@ public class UserService {
         List<BookType> mostSoldBookTypes = saleRepository.mostSoldGenres(user.getId());
         return UserStatsResponse.fromStats(totalSale, totalPurchased, totalDonated, mostBoughtBookTypes, purchaseDonationHistory, mostSoldBookTypes);
     }
-
-//    private List<BookType> mostPurchasedDonatedGenres(List<Advert> adverts) {
-//
-//    }
 
     public UserResponse updateUser(String id, UpdateUserRequest updateUserRequest, Optional<User> authenticatedUserOptional) {
         if(!authenticatedUserOptional.isPresent()) {

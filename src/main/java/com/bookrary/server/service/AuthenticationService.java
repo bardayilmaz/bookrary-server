@@ -12,10 +12,12 @@ import com.bookrary.server.repository.LibraryRepository;
 import com.bookrary.server.repository.UserRepository;
 import com.bookrary.server.security.JwtService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -68,5 +70,21 @@ public class AuthenticationService {
         newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         newUser.setLibrary(library);
         return newUser;
+    }
+
+    public String getAuthenticatedUserId() {
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal.equals("anonymousUser")) {
+            throw new BusinessException("Unauthorized user!", ErrorCode.unauthorized);
+        }
+        return principal;
+    }
+
+    public Optional<User> getAuthenticatedUser() {
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal.equals("anonymousUser")) {
+            return Optional.empty();
+        }
+        return userRepository.findById(principal);
     }
 }
