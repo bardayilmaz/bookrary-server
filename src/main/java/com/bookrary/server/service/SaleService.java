@@ -58,7 +58,7 @@ public class SaleService {
     }
 
     public List<BookType> getMostSoldGenres() {
-        return saleRepository.getMostSoldGenres();
+        return saleRepository.getMostSoldGenresFromDate(ZonedDateTime.now().minusDays(30));
     }
 
     private Sale fromRequest(Sale newSale, SaleRequest saleRequest) {

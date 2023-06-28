@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,7 +48,7 @@ public class AuthorService {
     }
 
     public List<AuthorResponse> getMostSoldAuthors() {
-        return authorRepository.getMostSoldAuthors().stream().map(AuthorResponse::fromEntity).collect(Collectors.toList());
+        return authorRepository.getMostSoldAuthorsFromDate(ZonedDateTime.now().minusDays(30)).stream().map(AuthorResponse::fromEntity).collect(Collectors.toList());
     }
 
     private Author fromRequest(Author author, AuthorRequest authorRequest) {
