@@ -1,5 +1,6 @@
 package com.bookrary.server.controller;
 
+import com.bookrary.server.entity.BookType;
 import com.bookrary.server.model.request.SaleRequest;
 import com.bookrary.server.model.response.SaleResponse;
 import com.bookrary.server.service.SaleService;
@@ -8,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/sale")
@@ -34,5 +37,10 @@ public class SaleController {
     @PutMapping("/{saleId}")
     public SaleResponse updateSale(@PathVariable String saleId, @RequestBody SaleRequest saleRequest) {
         return saleService.updateSale(saleId, saleRequest);
+    }
+
+    @GetMapping("/most-sold-genres")
+    public List<BookType> getMostSoldGenres() {
+        return saleService.getMostSoldGenres();
     }
 }

@@ -1,9 +1,6 @@
 package com.bookrary.server.service;
 
-import com.bookrary.server.entity.Advert;
-import com.bookrary.server.entity.Sale;
-import com.bookrary.server.entity.SaleStatus;
-import com.bookrary.server.entity.User;
+import com.bookrary.server.entity.*;
 import com.bookrary.server.exception.BusinessException;
 import com.bookrary.server.exception.ErrorCode;
 import com.bookrary.server.model.request.SaleRequest;
@@ -18,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Transactional
 @AllArgsConstructor
@@ -57,6 +55,10 @@ public class SaleService {
         fromRequest(sale, saleRequest);
         saleRepository.save(sale);
         return SaleResponse.fromEntity(sale);
+    }
+
+    public List<BookType> getMostSoldGenres() {
+        return saleRepository.getMostSoldGenres();
     }
 
     private Sale fromRequest(Sale newSale, SaleRequest saleRequest) {

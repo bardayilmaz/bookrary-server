@@ -42,7 +42,7 @@ public class UserService {
         int totalDonated = saleRepository.countByBuyerAndSaleStatus(user, SaleStatus.EXPIRED);
         List<BookType> mostBoughtBookTypes = saleRepository.mostPurchasedDonatedGenres(user.getId());
         List<Sale> purchaseDonationHistory = saleRepository.findFirst10ByBuyerOrderByCreatedDesc(user);
-        List<BookType> mostSoldBookTypes = saleRepository.mostSoldGenres(user.getId());
+        List<BookType> mostSoldBookTypes = saleRepository.mostSoldGenresOfSeller(user.getId());
         return UserStatsResponse.fromStats(totalSale, totalPurchased, totalDonated, mostBoughtBookTypes, purchaseDonationHistory, mostSoldBookTypes);
     }
 

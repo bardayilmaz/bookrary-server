@@ -27,7 +27,13 @@ public interface SaleRepository extends JpaRepository<Sale, String> {
             "(select advert_id from sale where sale.seller_id = :sellerId) " +
             "group by book_type order by count(book_type) desc;",
             nativeQuery = true)
-    List<BookType> mostSoldGenres(String sellerId);
+    List<BookType> mostSoldGenresOfSeller(String sellerId);
+
+    @Query(value = "select book_type from advert where advert.id in " +
+            "(select advert_id from sale) " +
+            "group by book_type order by count(book_type) desc;",
+            nativeQuery = true)
+    List<BookType> getMostSoldGenres();
 
     List<Sale> findFirst10ByBuyerOrderByCreatedDesc(User user);
 }
