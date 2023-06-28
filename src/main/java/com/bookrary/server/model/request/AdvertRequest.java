@@ -43,4 +43,6 @@ public class AdvertRequest {
     @NotEmpty(message = "Yazar id boş bırakılamaz")
     private String authorId;
 
+    private String bookPictureId;
+
 }

@@ -47,4 +47,8 @@ public class Advert extends BaseEntity {
     @JoinColumn(name = "author_id")
     private Author author;
 
+    @OneToOne
+    @JoinColumn(name = "file_id")
+    private File bookPicture;
+
 }

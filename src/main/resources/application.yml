@@ -26,3 +26,7 @@ swagger:
 
 security:
   jwtSecret: ${JWT_SECRET}
+
+cdn:
+  upload-path: ${CDN_UPLOAD_PATH}
+  host: ${CDN_HOST}

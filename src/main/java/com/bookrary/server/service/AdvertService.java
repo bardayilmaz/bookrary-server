@@ -1,9 +1,6 @@
 package com.bookrary.server.service;
 
-import com.bookrary.server.entity.Advert;
-import com.bookrary.server.entity.City;
-import com.bookrary.server.entity.Library;
-import com.bookrary.server.entity.User;
+import com.bookrary.server.entity.*;
 import com.bookrary.server.exception.BusinessException;
 import com.bookrary.server.exception.ErrorCode;
 import com.bookrary.server.model.request.AdvertRequest;
@@ -29,6 +26,7 @@ public class AdvertService {
     private final CityRepository cityRepository;
     private final LibraryRepository libraryRepository;
     private final UserRepository userRepository;
+    private final FileRepository fileRepository;
 
     public Page<AdvertResponse> getAdverts(Pageable pageable, String name, String cityId) {
         List<City> cities = cityId != null ? Arrays.asList(cityRepository.findById(cityId)
@@ -45,7 +43,6 @@ public class AdvertService {
     }
 
     public AdvertResponse addAdvert(AdvertRequest advertRequest) {
-
         Advert advert = fromRequest(new Advert(), advertRequest);
         advertRepository.save(advert);
         return AdvertResponse.fromEntity(advert);
@@ -74,9 +71,23 @@ public class AdvertService {
         newAdvert.setPageCount(advertRequest.getPageCount());
         newAdvert.setPublisherName(advertRequest.getPublisherName());
         newAdvert.setPublicationDate(advertRequest.getPublicationDate());
-
+        newAdvert.setBookPicture(getFile(newAdvert, advertRequest.getBookPictureId()));
         return newAdvert;
     }
 
+    private File getFile(Advert advert, String fileId) {
+        File file = fileRepository.findById(fileId)
+                .orElseThrow(() -> new BusinessException("File does not exists", ErrorCode.resource_missing));
+        if (advert.getBookPicture() != null) {
+            if (!advert.getBookPicture().getId().equals(fileId) && advertRepository.existsByBookPicture(file)) {
+                throw new BusinessException("File is already used by another advert!", ErrorCode.validation);
+            }
+        } else {
+            if (advertRepository.existsByBookPicture(file)) {
+                throw new BusinessException("File is already used by another advert!", ErrorCode.validation);
+            }
+        }
+        return file;
+    }
 
 }

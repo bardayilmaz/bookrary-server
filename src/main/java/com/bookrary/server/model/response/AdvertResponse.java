@@ -28,6 +28,7 @@ public class AdvertResponse {
     private String publisherName;
     private String title;
     private AuthorResponse author;
+    private FileResponse file;
 
     public static AdvertResponse fromEntity(Advert advert) {
         return AdvertResponse.builder()
@@ -43,6 +44,7 @@ public class AdvertResponse {
                 .publisherName(advert.getPublisherName())
                 .title(advert.getTitle())
                 .author(AuthorResponse.fromEntity(advert.getAuthor()))
+                .file(FileResponse.fromEntity(advert.getBookPicture()))
                 .build();
     }
 
