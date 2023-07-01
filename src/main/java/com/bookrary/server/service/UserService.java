@@ -6,6 +6,7 @@ import com.bookrary.server.exception.ErrorCode;
 import com.bookrary.server.model.request.UpdateUserRequest;
 import com.bookrary.server.model.response.UserResponse;
 import com.bookrary.server.model.response.UserStatsResponse;
+import com.bookrary.server.repository.LibraryRepository;
 import com.bookrary.server.repository.SaleRepository;
 import com.bookrary.server.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final SaleRepository saleRepository;
+    private final LibraryRepository libraryRepository;
 
     public Page<UserResponse> getUsers(Pageable pageable) {
         return userRepository.findAll(pageable).map(UserResponse::fromEntity);
@@ -69,7 +71,9 @@ public class UserService {
                 userRepository.existsByEmail(updateUserRequest.getEmail())) {
             throw new BusinessException("Email already exists.", ErrorCode.validation);
         }
-        user.setLibrary(updateUserRequest.getLibrary());
+        Library library = libraryRepository.findById(updateUserRequest.getLibraryId())
+                        .orElseThrow(() -> new BusinessException("Library not found", ErrorCode.resource_missing));
+        user.setLibrary(library);
         user.setFirstName(updateUserRequest.getFirstName());
         user.setLastName(updateUserRequest.getLastName());
         user.setPhoneNumber(updateUserRequest.getPhoneNumber());

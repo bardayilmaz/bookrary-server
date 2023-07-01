@@ -1,6 +1,5 @@
 package com.bookrary.server.model.request;
 
-import com.bookrary.server.entity.Library;
 import com.bookrary.server.entity.UserRole;
 import lombok.Data;
 import lombok.ToString;
@@ -19,8 +18,8 @@ public class UpdateUserRequest {
     @NotEmpty(message = "last name can not be empty")
     private String lastName;
 
-    @NotNull(message = "Library can not be empty")
-    private Library library;
+    @NotEmpty(message = "Library id can not be empty")
+    private String libraryId;
 
     @NotEmpty(message = "Email can not be empty")
     @Email(message = "Invalid email format")
