@@ -44,7 +44,7 @@ public class AdvertResponse {
                 .publisherName(advert.getPublisherName())
                 .title(advert.getTitle())
                 .author(AuthorResponse.fromEntity(advert.getAuthor()))
-                .file(FileResponse.fromEntity(advert.getBookPicture()))
+                .file(advert.getBookPicture() != null ?  FileResponse.fromEntity(advert.getBookPicture()) : null)
                 .build();
     }
 
