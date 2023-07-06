@@ -1,6 +1,7 @@
 package com.bookrary.server.model.response;
 
 import com.bookrary.server.entity.User;
+import com.bookrary.server.entity.UserRole;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -21,7 +22,7 @@ public class UserResponse {
     private LibraryResponse library;
     private String email;
     private String phoneNumber;
-
+    private UserRole userRole;
     public static UserResponse fromEntity(User user) {
         return UserResponse.builder()
                 .id(user.getId())
@@ -32,6 +33,7 @@ public class UserResponse {
                 .library(LibraryResponse.fromEntity(user.getLibrary()))
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
+                .userRole(user.getRole())
                 .build();
     }
 }
